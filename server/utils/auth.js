@@ -1,59 +1,38 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import User from "../models/User";
+const jwt = require('jsonwebtoken');
 
-/* REGISTER USER */
+// set expiration date 
 
-export const register =  async (req, res) => {
-    try {
-        const {
-            firstName,
-            lastName,
-            email,
-            password,
-            picturePath,
-            friends
-        } = req.body;
+const expiration = '1h';
 
-        const salt = await bcrypt.genSalt();
-        const passwordHash = await bcrypt.hash(password, salt);
+module.exports = {
+    authMiddleware: function (req, res, next) {
+        // allows token to be sent via req.query or headers
+        let token = req.query.token || req.headers.authorization;
 
-        const newUser = new User ({
-            firstName,
-            lastName,
-            email,
-            password: passwordHash,
-            picturePath,
-            friends,
-            // TO DO:  Create functions for below
-            viewedProfile: Math.floor (Math.random() * 10000),
-            impressions: Math.floor (Math.random() * 10000),
-        });
+        if (req.headers.authorization) {
+            token = token.split(' ').pop().trim();
+        }
 
-        const savedUser= await newUser.save();
-        res.status(201).json(savedUser);
+        if (!token) {
+            return res.status(400).json({ message: 'You have no token!'});
+        }
 
-    } catch (err) {
-        res.status(500).json ({ error: err.message });
-    }
-};
+        // Verify token and get user data
+        try {
+            const { data } = jwt.verify(token, process.env.JWT_SECRET, { maxAge: expiration });
+            req.user = data;
+        } catch {
+            console.log ('Invalid Token');
+            return res.status(400).json ({ message: 'Invalid Token!'});
+        }
 
+        // Direct to next endpoint 
+        next();
+    },
 
-/* LOG IN */
+    signToken: function ({ email, password }) {
+        const payload = { email, password };
 
-export const login = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findOne ({ email: email });
-            if (!user) return res.status (400).json ({ msg: "User does not exist ! "});
-
-            const isMatch = await bcrypt.compare (password, user.password)
-            if (!isMatch) return res.status (400).json ({ msg: " Invalid Credentials! "});
-
-            const token = jwt.sign ({id: user_id}, process.env.JWT_SECRET);
-            delete user.password;
-            res.status(200).json ({token, user});
-    } catch (err) {
-        res.status(500).json ({ error: err.message });
-    }
+        return jwt.sign({ data: payload}, process.env.JWT_SECRET, { expiresIn: expiration });
+    },
 };
