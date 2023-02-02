@@ -1,19 +1,46 @@
 const { Schema, model } = require ('mongoose');
 
 const postSchema = new Schema({
-    userId: {
+    postText: {
+        type: String,
+        minlength: 1,
+        maxlength: 220,
+        trim: true,
+    },
+    postUser: {
         type: String,
         required: true,
+        trim: true,
     },
-    firstName: {
-        type: String,
-        required: true,
+
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (timestamp) => dateFormat(timestamp),
     },
-    lastName: {
-        type: String,
-        required: true,
-    },
-    description: String,
+
+    comments: [
+        {
+            commentText: {
+                type: String,
+                required: true,
+                minlength: 1,
+                maxlength: 220,
+            },
+            commentUser: {
+                type: String,
+                required: true,
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now,
+                get: (timestamp) => dateFormat(timestamp),
+            },
+        },
+    ],
+
+    // future dev
+/*    
     picturePath: String,
     userPicturePath: String,
     likes: {
@@ -24,11 +51,13 @@ const postSchema = new Schema({
         type: Array,
         default: [],
     },
+    */ 
+    
     },
     {timestamps: true }
 );
 
-const Post = model("Post", postSchema);
+const Post = model('Post', postSchema);
 
 module.exports = Post;
 
