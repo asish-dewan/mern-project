@@ -1,0 +1,27 @@
+[
+    {
+        "username": "Grogu",
+        "email": "iamgrogu@stwars.dev",
+        "password": "hansolo1"
+    },
+    {
+        "username": "Mando",
+        "email": "mandalore@stwars.dev",
+        "password": "hansolo2"
+    },
+    {
+        "username": "Gideon",
+        "email": "moffside@stwars.dev",
+        "password": "hansolo3"
+    },
+    {
+        "username": "Darth",
+        "email": "lukesdad@stwars.dev",
+        "password": "hansolo4"
+    },
+    {
+        "username": "Kuiil",
+        "email": "ugnaught@stwars.dev",
+        "password": "hansolo5"
+    }
+]
