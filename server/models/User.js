@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema(
     {
@@ -13,6 +14,7 @@ const userSchema = new Schema(
             required: true,
             max: 50,
             unique: true,
+            match: [/.+@.+\..+/, 'Must match an email address!'],
         },
 
    // Add additional password configurations at a later stage
