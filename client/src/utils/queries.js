@@ -17,7 +17,7 @@ export const QUERY_USER = gql`
 
 export const QUERY_POSTS = gql`
     query getPosts {
-        thoughts {
+        posts {
         _id
         postText
         postUser
@@ -41,3 +41,20 @@ export const QUERY_SINGLE_POST = gql`
         }
     }
     `;
+
+    export const QUERY_ME = gql`
+    query me {
+        me {
+        _id
+        username
+        email
+        posts {
+            _id
+            postText
+            postUser
+            createdAt
+        }
+        }
+    }
+    `;
+
