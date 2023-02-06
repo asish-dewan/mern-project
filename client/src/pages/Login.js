@@ -30,7 +30,7 @@ const Login = (props) => {
 
         Auth.login(data.login.token);
         } catch (e) {
-        console.error(e);
+        console.error(JSON.stringify(e, null, 2));
         }
 
         // clear form values
@@ -42,51 +42,53 @@ const Login = (props) => {
 
     return (
         <main className="flex-row justify-center mb-4">
-        <div className="col-12 col-lg-10">
-            <div className="card">
-            <h4 className="card-header bg-dark text-light p-2">Login</h4>
-            <div className="card-body">
-                {data ? (
+            <div className="hero min-h-screen bg-base-200">
+                <div className="hero-content flex-col lg:flex-row-reverse">
+                    <div className="text-center lg:text-left">
+                    <h1 className="text-5xl font-bold">Login now!</h1>
+                    <p className="py-6"> Create, Share, Support and Build Connections with other enthusiasts like yourself 📻 </p>
+                    </div>
+                <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+                    <div className="card-body">
+                    {data ? (
                 <p>
-                    Success! You may now head{' '}
-                    <Link to="/">back to the homepage.</Link>
+                Success! You may now head{' '}
+                <Link to="/">back to the homepage.</Link>
                 </p>
-                ) : (
-                <form onSubmit={handleFormSubmit}>
-                    <input
-                    className="form-input"
-                    placeholder="Your email"
-                    name="email"
-                    type="email"
-                    value={formState.email}
-                    onChange={handleChange}
-                    />
-                    <input
-                    className="form-input"
-                    placeholder="******"
-                    name="password"
-                    type="password"
-                    value={formState.password}
-                    onChange={handleChange}
-                    />
-                    <button
-                    className="btn btn-block btn-primary"
-                    style={{ cursor: 'pointer' }}
-                    type="submit"
-                    >
-                    Submit
-                    </button>
-                </form>
-                )}
-
+            ) : (
+                    <form>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Email</span>
+                            </label>
+                            <input name= "email" type="email" placeholder="email" className="input input-bordered" value={formState.email} onChange={handleChange} />
+                        </div>
+                        <div className="form-control" onSubmit={handleFormSubmit}>
+                            <label className="label">
+                                <span className="label-text">Password</span>
+                            </label>
+                            <input name= "password" type="password" placeholder="password" className="input input-bordered" value={formState.password} onChange={handleChange}/>
+                        {/* <label className="label">
+                            <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                        </label> */}
+                        </div>
+                        <div className="form-control mt-6">
+                            <button className="btn btn-primary" type= "submit">Login</button>
+                        </div>
+                    </form>
+                    )}
                 {error && (
-                <div className="my-3 p-3 bg-danger text-white">
-                    {error.message}
+                        <div className="alert alert-error shadow-lg">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <span> {error.message} </span>
+                        </div>
+                        </div>
+                        )}
                 </div>
-                )}
             </div>
             </div>
-        </div>
+            </div>
         </main>
     );
 };
