@@ -21,11 +21,10 @@ const Home = () => {
             </div>
             <div className="col-12 col-md-8 mb-3">
             {loading ? (
-                <div>Loading...</div>
+                <progress className="progress w-56"></progress>
             ) : (
                 <PostList
                 posts={posts}
-                title="Some Feed for Thought(s)..."
                 />
             )}
             </div>
