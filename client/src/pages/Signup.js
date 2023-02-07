@@ -42,7 +42,7 @@ const Signup = () => {
         <main className="flex-row justify-center mb-4">
         <div className="col-12 col-lg-10">
             <div className="card">
-            <h4 className="card-header bg-dark text-light p-2">Sign Up</h4>
+            <h4 className="card-header">Sign Up</h4>
             <div className="card-body">
                 {data ? (
                 <p>
@@ -50,39 +50,32 @@ const Signup = () => {
                     <Link to="/">back to the homepage.</Link>
                 </p>
                 ) : (
-                <form onSubmit={handleFormSubmit}>
-                    <input
-                    className="form-input"
-                    placeholder="Your username"
-                    name="username"
-                    type="text"
-                    value={formState.name}
-                    onChange={handleChange}
-                    />
-                    <input
-                    className="form-input"
-                    placeholder="Your email"
-                    name="email"
-                    type="email"
-                    value={formState.email}
-                    onChange={handleChange}
-                    />
-                    <input
-                    className="form-input"
-                    placeholder="******"
-                    name="password"
-                    type="password"
-                    value={formState.password}
-                    onChange={handleChange}
-                    />
-                    <button
-                    className="btn btn-block btn-primary"
-                    style={{ cursor: 'pointer' }}
-                    type="submit"
-                    >
-                    Submit
-                    </button>
-                </form>
+                <form>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Username</span>
+                            </label>
+                            <input name= "username" type="text" placeholder="username" className="input input-bordered" value={formState.name} onChange={handleChange} />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Email</span>
+                            </label>
+                            <input name= "email" type="email" placeholder="email" className="input input-bordered" value={formState.email} onChange={handleChange} />
+                        </div>
+                        <div className="form-control" onSubmit={handleFormSubmit}>
+                            <label className="label">
+                                <span className="label-text">Password</span>
+                            </label>
+                            <input name= "password" type="password" placeholder="password" className="input input-bordered" value={formState.password} onChange={handleChange}/>
+                        {/* <label className="label">
+                            <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                        </label> */}
+                        </div>
+                        <div className="form-control mt-6">
+                            <button className="btn btn-primary" type= "submit">Sign Up</button>
+                        </div>
+                    </form>
                 )}
 
                 {error && (
