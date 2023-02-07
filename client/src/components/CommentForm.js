@@ -47,7 +47,7 @@ const CommentForm = ({ postId }) => {
             <>
             <p
                 className={`m-0 ${
-                characterCount === 220 || error ? 'text-danger' : ''
+                characterCount === 220 || error ? 'alert alert-error shadow-lg' : ''
                 }`}
             >
                 Character Count: {characterCount}/220

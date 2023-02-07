@@ -60,6 +60,22 @@ const PostForm = () => {
         }
     };
 
+    // Requires refactoring 
+
+    // const fileUpload = form.addEventListener('submit', (e) => {
+    //         e.preventDefault()
+    //         const formData = new FormData()
+    //         formData.append('username', 'Sandra Rodgers')
+    //         formData.append('files', file)
+        
+    //         fetch('http://localhost:8080/upload_files', {
+    //         method: 'post',
+    //         body: formData,
+    //         })
+    //         .then((res) => console.log(res))
+    //         .catch((err) => ('Error occurred', err))
+    //     })
+
     return (
         <div>
         <h3> Create, Share, Build Connections ! </h3>
@@ -99,6 +115,14 @@ const PostForm = () => {
                 </div>
                 )}
             </form>
+            <br></br>
+            <div>
+            <form>
+                <label for="file">Select files</label>
+                <input id="file" type="file" name="file" />
+                <input type="submit" value="POST to server"></input>
+            </form>
+            </div>          
             </>
         ) : (
             <p>
@@ -107,6 +131,7 @@ const PostForm = () => {
             </p>
         )}
         </div>
+        
     );
     };
 
