@@ -1,20 +1,19 @@
 
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./schemas');
+const { typeDefs, resolvers } = require('./schemas'); 
 const path = require('path');
 
 const dotenv = require('dotenv');
-
-/* CONFIGURATIONS */
+const multer = require('multer')
+const upload = multer({ storage })
 
 dotenv.config();
 const db = require('./config/connection');
-const { authMiddleware } = require('./utils/auth');
+const { authMiddleware } = require('./utils/auth'); 
 
 const PORT = process.env.PORT || 3001;
 const app = express();
-
 
 const server = new ApolloServer({
     typeDefs,
@@ -30,18 +29,20 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/build')));
     }
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-    
 /* FILE STORAGE */
 
-/* ROUTE WITH FILES */
+const storage = multer.diskStorage({
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    },
+    destination: function (req, file, cb) {
+        cb(null, './uploads')
+    },
+    });
 
-/* Upload sample locally to the public/assets folder before hitting the register endpoint 
-    This route cannot be moved to Routes as we require the 'upload' variable */
-
-//app.post ("/auth/register", upload.single("sample"), createUser();
+app.post('/upload_files', upload.any('file'), (req, res) => {
+        res.send({ message: 'Successfully uploaded files' })
+    })
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async (typeDefs, resolvers) => {
